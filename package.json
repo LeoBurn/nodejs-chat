@@ -1,0 +1,19 @@
+{
+  "name": "nodejs-chat",
+  "version": "1.0.0",
+  "description": "\"Simple web chat with categories\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeoBurn/nodejs-chat.git"
+  },
+  "author": "Leandro Viana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeoBurn/nodejs-chat/issues"
+  },
+  "homepage": "https://github.com/LeoBurn/nodejs-chat#readme"
+}
