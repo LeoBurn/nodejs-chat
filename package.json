@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/LeoBurn/nodejs-chat/issues"
   },
-  "homepage": "https://github.com/LeoBurn/nodejs-chat#readme"
+  "homepage": "https://github.com/LeoBurn/nodejs-chat#readme",
+  "dependencies": {
+    "jade": "^1.11.0"
+  }
 }
