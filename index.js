@@ -1,19 +1,19 @@
-var http = require('http');
-var fileSystemModule = require('fs');
-var urlModule = require('url');
+var app = require('express')();  
+var server = require('http').Server(app);  
+var io = require('socket.io')(server);
 
-http.createServer(function(request,response){
-    var fileName = "./views/index.html"
-    fileSystemModule.readFile(fileName, function (error, data) {
-        if (error) {
-            response.writeHead(404, { 'Content-Type': 'text/html' });
-            return response.end("404 Not Found");
-        }
+app.get('/', function(req, res) {  
+    res.sendFile(__dirname + '/views/index.html');
+});
 
-
-
-        response.writeHead(200, { 'Content-Type': 'text/html' });
-        response.write(data);
-        response.end();
-    })
-}).listen(8080);
+//User Enter in chat Socket
+io.on('connection', function(socket) {  
+    socket.on('event', function(data) {
+        console.log(data.message);
+        //BroadCast
+        //Dummy Example this send message only to socket created in scope of this client
+        //socket.emit('announcements', { message: data.message });
+        io.sockets.emit('announcements', { message: data.message });
+    });
+});
+server.listen(8080);  

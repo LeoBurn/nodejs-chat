@@ -1,30 +1,42 @@
 <head>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 </head>
 
 <body>
-   
+
     <div class="container">
         <div class="row">
-           <div class="col-md-offset-3 col-md-6 form-group">
+            <div class="col-md-offset-3 col-md-6 form-group">
                 <label for="email">Email address</label>
-                <input id="email" type="email" class="form-control"  placeholder="Email">
+                <input id="email" type="email" class="form-control" placeholder="Email">
             </div>
         </div>
         <div class="row">
-           <div class="col-md-offset-3 col-md-6 form-group">
+            <div class="col-md-offset-3 col-md-6 form-group">
                 <label for="chatArea">Chat</label>
                 <textarea id="chatArea" name="chatArea" class="form-control" rows="30"></textarea>
             </div>
         </div>
         <div class="row">
-           <div class="col-md-offset-3 col-md-5 form-group">
-                <input id="msgSend" name="msgSend" type="text" class="form-control"  placeholder="Message">
+            <div class="col-md-offset-3 col-md-5 form-group">
+                <input id="msgSend" name="msgSend" type="text" class="form-control" placeholder="Message">
             </div>
             <div class="col-md-1">
                 <input id="btnSendMessage" class="btn btn-primary" type="button" value="Send">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-3 col-md-6 form-group">
+                <div id="alertContainer" class="alert alert-warning alert-dismissible fade in" role="alert"> 
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span></button> <span id="notificationText"> New User</span>
+                </div>
             </div>
         </div>
     </div>
@@ -32,9 +44,25 @@
 </body>
 
 <script>
-    $("#btnSendMessage").click(function()
-    {
+    var socket = io.connect('/');
+    $("#btnSendMessage").click(function () {
+        var email = $("#email").val();
+        if (!email)
+            email = "Guest";
+
         var messageToSend = $("#msgSend").val();
-        $("#chatArea").append()
+        var currentChatMessages = $("#chatArea").val();
+        var messageFinal = email + ": " + messageToSend;
+        socket.emit('event', { message: messageFinal });
+        $("#msgSend").val("");
     });
+
+    
+    socket.on('announcements', function(data) {
+        var currentChatMessages = $("#chatArea").val();
+        $("#chatArea").val(currentChatMessages + "\n" + data.message);
+    });
+
+    
+
 </script>
