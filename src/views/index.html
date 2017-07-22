@@ -28,7 +28,7 @@
                         <input id="email" type="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="col-md-4 form-group">
-                        <input id="eventName" type="text" class="form-control" placeholder="Event Name">
+                        <input id="roomName" type="text" class="form-control" placeholder="Event Name">
                     </div>
                     <div class="col-md-1 form-group">
                         <input id="connectEvent" class="btn btn-primary" type="button" value="Connect">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <h2><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Events List</h2>
+                        <h2><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Room's List</h2>
                         <ul id="eventsList" class="list-group">
                         </ul>
                     </div>
@@ -90,10 +90,10 @@
 
 
     $("#connectEvent").click(function(){
-        var eventName = $("#eventName").val();
+        var roomName = $("#roomName").val();
         var email = $("#email").val();
         //Ui addEvent
-        $("#eventsList").append('<li class="list-group-item">'+email+' <span class="label label-success">'+eventName+'</span></li>');
+        $("#eventsList").append('<li class="list-group-item">'+email+' <span class="label label-success">'+roomName+'</span><button type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button></li>');
     });
-
+    
 </script>
