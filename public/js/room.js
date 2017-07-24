@@ -12,11 +12,12 @@ var socket = io.connect('/');
     });
 
 
-    socket.on('announcements', function (data) {
-        var currentChatMessages = $("#chatArea").val();
-        $("#chatArea").val(currentChatMessages + "\n" + data.message);
-    });
+    // socket.on('announcements', function (data) {
+    //     var currentChatMessages = $("#chatArea").val();
+    //     $("#chatArea").val(currentChatMessages + "\n" + data.message);
+    // });
 
+    $("#chatArea")
 
     $("#connectEvent").click(function(){
         var roomName = $("#roomName").val();
