@@ -3,7 +3,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 app.get('/', function(req, res) {  
-    res.sendFile(__dirname + '/views/index.html');
+    res.sendFile(__dirname + '/room/index.html');
 });
 
 //User Enter in chat Socket
