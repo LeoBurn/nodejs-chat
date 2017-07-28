@@ -1,9 +1,9 @@
 var express = require('express');
-var app = express();  
-var server = require('http').Server(app);  
+var app = express();
+var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-app.get('/', function(req, res) {  
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/room/index.html');
 });
 
@@ -11,13 +11,24 @@ app.get('/', function(req, res) {
 app.use(express.static('public'));
 
 //User Enter in chat Socket
-io.on('connection', function(socket) {  
-    socket.on('event', function(data) {
-        console.log(data.message);
-        //BroadCast
-        //Dummy Example this send message only to socket created in scope of this client
-        //socket.emit('announcements', { message: data.message });
-        io.sockets.emit('announcements', { message: data.message });
+//Whenever someone connects this gets executed
+io.on('connection', function (socket) {
+    console.log('A user connected');
+
+
+    socket.on('connectRoom', function (room) {
+        console.log('A user connected into a '+room);
+        socket.join(room);
     });
+
+    //Whenever someone disconnects this piece of code executed
+    socket.on('disconnect', function () {
+        console.log('A user disconnected');
+    });
+
+    socket.on('sendMessageEvent', function(room,data){
+	    console.log(room+" : "+data);
+    });
+
 });
 server.listen(8080);  
