@@ -1,27 +1,65 @@
-var socket = io.connect('/');
+
+$(function() {
+    //Send button click handler
     $("#btnSendMessage").click(function () {
-        var email = $("#email").val();
+        var email = getUserName();
+        var messageToSend = $("#msgSend").val();
+
+        sendTextToChatArea(new Date().toLocaleString(),email,messageToSend)
+        //clean message box
+        $("#msgSend").val("");
+        $("#btnSendMessage").prop( "disabled", true );
+    });
+
+    //Connect event button click handler
+    $("#connectEvent").click(function(){
+        var email = getUserName();
+        var roomName = $("#roomName").val();
+        
+        //Ui addEvent
+        $("#eventsList").append('<li class="list-group-item">'+email+' <span class="label label-success">'+roomName+'</span><button type="button" class="close"  aria-label="Close" onclick="disconectEventClick(this)"><span aria-hidden="true">&times;</span></button></li>');
+        //Activate msgBox
+        $("#msgSend").prop( "disabled", false );
+
+        //clean event
+        $("#email").val("");
+        $("#roomName").val("");
+    });
+
+    $("#msgSend").keyup(function(){
+        var msg = $(this).val();
+        if(msg)
+            $("#btnSendMessage").prop( "disabled", false );
+    });
+        
+
+    
+});
+
+function disconectEventClick(element)
+{
+    $(element).parent().hide();
+    if(numberOfConnectedEvents() <= 1)
+    {
+        $("#msgSend").val("");
+        $("#msgSend").prop( "disabled", true );
+        $("#btnSendMessage").prop( "disabled", true );
+    }   
+}
+
+function getUserName(){
+    var email = $("#email").val();
         if (!email)
             email = "Guest";
+    return email;
+}
 
-        var messageToSend = $("#msgSend").val();
-        var currentChatMessages = $("#chatArea").val();
-        var messageFinal = email + ": " + messageToSend;
-        socket.emit('event', { message: messageFinal });
-        $("#msgSend").val("");
-    });
+function sendTextToChatArea(date,user,msg)
+{
+    var msgToChat = '{'+date+'} '+user +': '+msg+'\n';
+    $("#chatArea").append(msgToChat);
+}
 
-
-    // socket.on('announcements', function (data) {
-    //     var currentChatMessages = $("#chatArea").val();
-    //     $("#chatArea").val(currentChatMessages + "\n" + data.message);
-    // });
-
-    $("#chatArea")
-
-    $("#connectEvent").click(function(){
-        var roomName = $("#roomName").val();
-        var email = $("#email").val();
-        //Ui addEvent
-        $("#eventsList").append('<li class="list-group-item">'+email+' <span class="label label-success">'+roomName+'</span><button type="button" class="close"  aria-label="Close"><span aria-hidden="true">&times;</span></button></li>');
-    });
+function numberOfConnectedEvents(){
+    return $("#eventsList").children().length;
+}
