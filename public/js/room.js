@@ -35,6 +35,7 @@ $(function () {
         //clean event
         $("#email").val("");
         $("#roomName").val("");
+        $("#connectEvent").prop("disabled", true);
     });
 
     $("#msgSend").keyup(function () {
@@ -52,6 +53,7 @@ function disconectEventClick(element) {
         $("#msgSend").val("");
         $("#msgSend").prop("disabled", true);
         $("#btnSendMessage").prop("disabled", true);
+        $("#connectEvent").prop("disabled", false);
     }
 }
 
